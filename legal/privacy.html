@@ -21,6 +21,7 @@
   .card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 18px;margin:22px 0}
   .nav{font-size:14px;margin-bottom:22px}
   .nav a{margin-right:16px}
+  .reveal{font:inherit;color:var(--accent);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
   footer{margin-top:44px;color:var(--muted);font-size:13px}
 </style>
 </head>
@@ -91,24 +92,29 @@
 <p>I may update this policy from time to time. The current version is always available at this page, with the &ldquo;Last updated&rdquo; date revised accordingly.</p>
 
 <h2>Contact</h2>
-<p>Questions about privacy: <span id="contact-email">[please enable JavaScript to view the contact email]</span></p>
+<p>Questions about privacy:
+  <button id="reveal-email" type="button" class="reveal">show email address</button>
+  <noscript>paulius.petru [at] gmail [dot] com</noscript>
+</p>
 
 <footer>Paulius Petrusauskas &middot; Vilnius, Lithuania</footer>
 </div>
 
 <script>
-// Email is assembled at runtime from parts so bulk crawlers/harvesters (which
-// do not run JavaScript) cannot scrape it. Real visitors get a clickable link.
+// Click-to-reveal: the address is assembled only after a real user clicks, so
+// neither plain crawlers nor JS-rendering scrapers (which don't simulate clicks)
+// can harvest it. Real visitors get a clickable mailto link.
 (function () {
-  var p = ['paulius.petru', 'gmail', 'com'];
-  var addr = p[0] + '@' + p[1] + '.' + p[2];
-  var slot = document.getElementById('contact-email');
-  if (!slot) return;
-  var a = document.createElement('a');
-  a.href = 'ma' + 'il' + 'to:' + addr;
-  a.textContent = addr;
-  slot.textContent = '';
-  slot.appendChild(a);
+  var btn = document.getElementById('reveal-email');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var p = ['paulius.petru', 'gmail', 'com'];
+    var addr = p[0] + '@' + p[1] + '.' + p[2];
+    var a = document.createElement('a');
+    a.href = 'ma' + 'il' + 'to:' + addr;
+    a.textContent = addr;
+    btn.replaceWith(a);
+  });
 })();
 </script>
 </body>
